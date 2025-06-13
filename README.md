@@ -1,3 +1,6 @@
+Contract address: 0x30b632e1247c87D55580A225A557Af2ABB3f46Db
+
+
 **En este examen, los estudiantes aplicarán el conocimiento fundamental adquirido en el Módulo 2 desarrollando, desplegando y documentando su primer proyecto completo de smart contract.**
 
 ### **¿Por qué es importante?**
