@@ -34,6 +34,22 @@ contract KipuBank {
     event Deposited(address indexed user, uint256 amount);
     event Withdrawn(address indexed user, uint256 amount);
 
+    // Modifiers
+    /// @notice Validates that the withdrawal amount is allowed
+    /// @param amount The amount the user wants to withdraw
+    modifier validWithdrawal(uint256 amount) {
+        if (amount > withdrawLimit) revert WithdrawalExceedsLimit();
+        if (amount > balances[msg.sender]) revert InsufficientBalance();
+        _;
+    }
+
+    /// @notice Validates that the withdrawal amount is allowed
+    /// @param amount The amount the user wants to withdraw
+    modifier validDeposit(uint256 amount) {
+        if (totalDeposited + msg.value > bankCap) revert DepositExceedsBankCap();
+        _;
+    }
+
     /// @dev Constructor where we establish the limits
     /// @param _bankCap Deposit global limit
     /// @param _withdrawLimit Withdraw limit per transaction
@@ -52,10 +68,7 @@ contract KipuBank {
 
     /// @notice Deposit ETH into personal vault
     /// @dev Follows checks-effects-interactions pattern
-    function deposit() external payable {
-        if (totalDeposited + msg.value > bankCap)
-            revert DepositExceedsBankCap();
-
+    function deposit() external payable validDeposit(msg.value) {
         totalDeposited += msg.value;
         balances[msg.sender] += msg.value;
         depositCount[msg.sender]++;
@@ -63,25 +76,20 @@ contract KipuBank {
         emit Deposited(msg.sender, msg.value);
     }
 
-     /// @notice Withdraw the specified amount (it have to be between the limits)
+    /// @notice Withdraw the specified amount (it have to be between the limits)
     /// @param amount withdrawal amount
-    function withdraw(uint256 amount) external {
-        if (amount > withdrawLimit) revert WithdrawalExceedsLimit();
-        if (amount > balances[msg.sender]) revert InsufficientBalance();
-
+    function withdraw(uint256 amount) external validWithdrawal(amount) {
         balances[msg.sender] -= amount;
         totalDeposited -= amount;
         withdrawalCount[msg.sender]++;
 
         _safeTransfer(msg.sender, amount);
-
         emit Withdrawn(msg.sender, amount);
     }
 
-    /// @notice Get the user's balance
-    /// @param user User's address 
-    /// @return Total user's balance
-    function getBalance(address user) external view returns (uint256) {
-        return balances[user];
+    /// @notice Get balance of the current address
+    /// @return Current address total balance
+    function getMyBalance() external view returns (uint256) {
+        return balances[msg.sender];
     }
 }
