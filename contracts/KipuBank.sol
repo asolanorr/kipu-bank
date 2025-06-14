@@ -43,8 +43,8 @@ contract KipuBank {
         _;
     }
 
-    /// @notice Validates that the withdrawal amount is allowed
-    /// @param amount The amount the user wants to withdraw
+    /// @notice Validates that the deposit amount is allowed
+    /// @param amount The amount the user wants to deposit
     modifier validDeposit(uint256 amount) {
         if (totalDeposited + msg.value > bankCap) revert DepositExceedsBankCap();
         _;
@@ -87,9 +87,9 @@ contract KipuBank {
         emit Withdrawn(msg.sender, amount);
     }
 
-    /// @notice Get balance of the current address
-    /// @return Current address total balance
-    function getMyBalance() external view returns (uint256) {
-        return balances[msg.sender];
+    /// @notice Get balance of an specific address
+    /// @return Specific address total balance
+    function getBalance(address user) external view returns (uint256) {
+        return balances[user];
     }
 }

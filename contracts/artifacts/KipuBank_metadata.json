@@ -114,8 +114,14 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "getMyBalance",
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getBalance",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -200,9 +206,9 @@
 				"deposit()": {
 					"details": "Follows checks-effects-interactions pattern"
 				},
-				"getMyBalance()": {
+				"getBalance(address)": {
 					"returns": {
-						"_0": "Current address total balance"
+						"_0": "Specific address total balance"
 					}
 				},
 				"withdraw(uint256)": {
@@ -226,8 +232,8 @@
 				"depositCount(address)": {
 					"notice": "Deposit count per user"
 				},
-				"getMyBalance()": {
-					"notice": "Get balance of the current address"
+				"getBalance(address)": {
+					"notice": "Get balance of an specific address"
 				},
 				"totalDeposited()": {
 					"notice": "Total amount deposited in the contract"
@@ -263,11 +269,11 @@
 	},
 	"sources": {
 		"contracts/KipuBank.sol": {
-			"keccak256": "0x9ddf5aabab250b98aed187e8848461fb00f99b09030fcc19f26270bef73891e3",
+			"keccak256": "0x131a50c1931a0419be46d59f7c923a09bb50510f83bbe7c2833b547cf21208ba",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0f9f4963145985c65be4754af156351f902bd31af4eee36d7c66c6e3bd7fa221",
-				"dweb:/ipfs/QmUohw5RvyLd7C8nqHihjiYNaPox1eZgaJ4HnirRnYL7oK"
+				"bzz-raw://2e9ed12dfb72213cdf5fcd6419fcd8a4e264503007cdc135dd1f4719ca6a4b6a",
+				"dweb:/ipfs/QmT2nMo4QAV2gFqGskutsNkD9LmgjyYK5qcz7qHBqjSWAs"
 			]
 		}
 	},
