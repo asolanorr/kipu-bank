@@ -43,22 +43,21 @@ contract KipuBank {
         _;
     }
 
-    /// @notice Validates that the deposit amount is allowed
-    /// @param amount The amount the user wants to deposit
-    modifier validDeposit(uint256 amount) {
-        if (totalDeposited + msg.value > bankCap) revert DepositExceedsBankCap();
+    /// @notice Validates that the deposit does not exceed the bank cap
+    modifier validDeposit() {
+        if (msg.value > bankCap) revert DepositExceedsBankCap();
         _;
     }
 
-    /// @dev Constructor where we establish the limits
-    /// @param _bankCap Deposit global limit
-    /// @param _withdrawLimit Withdraw limit per transaction
+    /// @dev Constructor to set global deposit and withdrawal limits
+    /// @param _bankCap Global deposit cap
+    /// @param _withdrawLimit Max withdrawal amount per transaction
     constructor(uint256 _bankCap, uint256 _withdrawLimit) {
         bankCap = _bankCap;
         withdrawLimit = _withdrawLimit;
     }
 
-    /// @dev Method to made a safe transfer
+    /// @dev Internal helper to transfer ETH safely
     /// @param to Receiver address
     /// @param amount Amount to transfer
     function _safeTransfer(address to, uint256 amount) private {
@@ -66,9 +65,9 @@ contract KipuBank {
         require(sent, "Transfer failed");
     }
 
-    /// @notice Deposit ETH into personal vault
+    /// @notice Deposit ETH to the vault
     /// @dev Follows checks-effects-interactions pattern
-    function deposit() external payable validDeposit(msg.value) {
+    function deposit() external payable validDeposit {
         totalDeposited += msg.value;
         balances[msg.sender] += msg.value;
         depositCount[msg.sender]++;
@@ -76,8 +75,8 @@ contract KipuBank {
         emit Deposited(msg.sender, msg.value);
     }
 
-    /// @notice Withdraw the specified amount (it have to be between the limits)
-    /// @param amount withdrawal amount
+    /// @notice Withdraw ETH from the vault
+    /// @param amount Amount to withdraw
     function withdraw(uint256 amount) external validWithdrawal(amount) {
         balances[msg.sender] -= amount;
         totalDeposited -= amount;
@@ -87,8 +86,8 @@ contract KipuBank {
         emit Withdrawn(msg.sender, amount);
     }
 
-    /// @notice Get balance of an specific address
-    /// @return Specific address total balance
+    /// @notice View the ETH balance of any user
+    /// @param user Address to query
     function getBalance(address user) external view returns (uint256) {
         return balances[user];
     }

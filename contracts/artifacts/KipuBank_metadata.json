@@ -197,23 +197,23 @@
 			"kind": "dev",
 			"methods": {
 				"constructor": {
-					"details": "Constructor where we establish the limits",
+					"details": "Constructor to set global deposit and withdrawal limits",
 					"params": {
-						"_bankCap": "Deposit global limit",
-						"_withdrawLimit": "Withdraw limit per transaction"
+						"_bankCap": "Global deposit cap",
+						"_withdrawLimit": "Max withdrawal amount per transaction"
 					}
 				},
 				"deposit()": {
 					"details": "Follows checks-effects-interactions pattern"
 				},
 				"getBalance(address)": {
-					"returns": {
-						"_0": "Specific address total balance"
+					"params": {
+						"user": "Address to query"
 					}
 				},
 				"withdraw(uint256)": {
 					"params": {
-						"amount": "withdrawal amount"
+						"amount": "Amount to withdraw"
 					}
 				}
 			},
@@ -227,19 +227,19 @@
 					"notice": "Deposit global limit"
 				},
 				"deposit()": {
-					"notice": "Deposit ETH into personal vault"
+					"notice": "Deposit ETH to the vault"
 				},
 				"depositCount(address)": {
 					"notice": "Deposit count per user"
 				},
 				"getBalance(address)": {
-					"notice": "Get balance of an specific address"
+					"notice": "View the ETH balance of any user"
 				},
 				"totalDeposited()": {
 					"notice": "Total amount deposited in the contract"
 				},
 				"withdraw(uint256)": {
-					"notice": "Withdraw the specified amount (it have to be between the limits)"
+					"notice": "Withdraw ETH from the vault"
 				},
 				"withdrawLimit()": {
 					"notice": "Withdraw limit per transaction"
@@ -269,11 +269,11 @@
 	},
 	"sources": {
 		"contracts/KipuBank.sol": {
-			"keccak256": "0x131a50c1931a0419be46d59f7c923a09bb50510f83bbe7c2833b547cf21208ba",
+			"keccak256": "0x80830c562c455f7aab41c0663e1ce451c42471b0e6a89fd585e9b1346b1b8e09",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2e9ed12dfb72213cdf5fcd6419fcd8a4e264503007cdc135dd1f4719ca6a4b6a",
-				"dweb:/ipfs/QmT2nMo4QAV2gFqGskutsNkD9LmgjyYK5qcz7qHBqjSWAs"
+				"bzz-raw://76b270ddddfe869b9f944670e0cc98ccf2bf7af7cf819fc58f059af33d3c46fb",
+				"dweb:/ipfs/QmfTv6pXeJgqSkawUd8iasYxcqxNi4n9uyjqrPXHedjmVk"
 			]
 		}
 	},
