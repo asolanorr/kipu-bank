@@ -1,102 +1,72 @@
-Contract address: 0x30b632e1247c87D55580A225A557Af2ABB3f46Db
+# 🏦 KipuBank - ETH Deposit and Withdrawal Vault
 
+**KipuBank** es un contrato inteligente en Solidity que permite a los usuarios depositar y retirar ETH bajo ciertas restricciones, garantizando la seguridad del contrato y el control de los fondos. Está desarrollado como parte del Módulo 2 del curso Web3, aplicando buenas prácticas de Solidity y manejo de errores personalizados.
 
-**En este examen, los estudiantes aplicarán el conocimiento fundamental adquirido en el Módulo 2 desarrollando, desplegando y documentando su primer proyecto completo de smart contract.**
+---
 
-### **¿Por qué es importante?**
+## 📜 Descripción
 
-Este examen es un paso crítico en su camino como desarrollador Web3. No se trata solo de escribir Solidity, se trata de escribir contratos inteligentes _seguros, mantenibles y bien documentados_. Aplicarán mejores prácticas de desarrollo, patrones de seguridad que protegen protocolos del mundo real, y aprenderán a presentar su trabajo profesionalmente a través de GitHub.
+KipuBank actúa como una bóveda personal de ETH para cada usuario, donde se puede:
 
-Esta tarea práctica conecta la teoría con la aplicación, preparándolos para contribuciones y colaboraciones reales en el ecosistema Ethereum.
+- Depositar ETH
+- Retirar ETH con un límite por transacción (`withdrawLimit`)
+- Consultar el balance personal
+- Controlar el número de depósitos y retiros por usuario
+- Obtener estadísticas por usuario (total de: balance, depósitos y retiros)
 
-### **Objetivos del Examen**
+---
 
-*   Aplicar conceptos centrales de Solidity aprendidos en clase
-    
-*   Seguir patrones de seguridad
-    
-*   Usar comentarios y estructura limpia para mejorar la legibilidad y mantenibilidad del contrato
-    
-*   Desplegar un smart contract completamente funcional en una testnet
-    
-*   Crear un repositorio GitHub que documente y muestre su proyecto
-    
+## 🚀 Instrucciones de Despliegue
 
-### **Descripción de la Tarea y Requisitos**
+> Estas instrucciones asumen que estás usando **Remix**.
 
-**Su tarea es recrear el smart contract KipuBank con funcionalidad completa y documentación como se describe a continuación.**
+1. Abre [Remix IDE](https://remix.ethereum.org/)
+2. Crea un nuevo archivo llamado `KipuBank.sol` y pega el código del contrato
+3. Compila el contrato usando el compilador 0.8.20
+4. En la pestaña **Deploy & Run Transactions**:
+   - Selecciona el entorno `Injected Provider - Metamask`
+   - Selecciona la red **Sepolia Testnet**
+   - Ingresa los parámetros del constructor:
+     - `bankCap`: por ejemplo `10000000000000000000` (10 ETH)
+     - `withdrawLimit`: por ejemplo `1000000000000000000` (1 ETH)
+   - Haz clic en **Deploy**
+5. Copia la dirección del contrato desplegado y verifica el contrato en [Sepolia Etherscan](https://sepolia.etherscan.io/)
 
-**Características de KipuBank:**
+---
 
-*   Los usuarios pueden depositar tokens nativos (ETH) en una bóveda personal
-    
-*   Los usuarios pueden retirar fondos de su bóveda, pero solo hasta un **umbral fijo** por transacción, representado por una variable immutable
-    
-*   El contrato enforce un **límite global de depósito** (bankCap), establecido durante el despliegue
-    
-*   Las interacciones internas y externas deben seguir mejores prácticas de seguridad y declaraciones revert con errores personalizados claros si no se cumplen las condiciones
-    
-*   Los eventos deben emitirse tanto en depósitos como en retiros exitosos
-    
-*   El contrato debe llevar el registro del número de depósitos y retiros
-    
-*   El contrato debe tener al menos una función **external**, una **private**, y una **view**
-    
+## 🧪 Cómo interactuar con el contrato
 
-**Prácticas de Seguridad a Seguir:**
+### Funciones disponibles
 
-*   Usar **errores personalizados** en lugar de strings de require
-    
-*   Respetar el patrón **checks-effects-interactions** y convenciones de nomenclatura
-    
-*   Usar modificadores donde sea apropiado para validar lógica
-    
-*   Manejar transferencias nativas de forma segura
-    
-*   Mantener variables de estado limpias, legibles y bien comentadas
-    
-*   Agregar comentarios NatSpec para cada función, error y variable de estado
-    
-*   Aplicar convenciones de nomenclatura apropiadas
-    
+#### `deposit()` (payable)
+Deposita ETH al contrato, siempre y cuando el total no supere el `bankCap`.
+- Incrementa el balance del usuario y su contador de depósitos
 
-### **Entregables**
+#### `withdraw(uint256 amount)`
+Permite retirar un monto de ETH dentro del `withdrawLimit` y que el usuario tenga suficiente balance.
+- Reduce el balance del usuario y suma a su contador de retiros
 
-**1\. URL del Repositorio GitHub** Un repo público llamado kipu-bank que contenga:
+#### `getBalance(address user) → uint256`
+Devuelve el balance de un usuario específico.
 
-*   Su código de smart contract dentro de una carpeta /contracts con los siguientes componentes:
-    
-    *   Variables Immutable || Constant
-        
-    *   Variables de Storage
-        
-    *   Mapping
-        
-    *   Eventos
-        
-    *   Errores Personalizados
-        
-    *   Constructor
-        
-    *   Modificador
-        
-    *   Función External Payable
-        
-    *   Función Private
-        
-    *   Función External View
-        
-*   Un README.md bien estructurado que incluya:
-    
-    *   Descripción de qué hace el contrato
-        
-    *   Instrucciones de despliegue
-        
-    *   Cómo interactuar con el contrato
-        
+#### `depositCount(address) → uint256`
+Devuelve la cantidad de depósitos realizados por un usuario.
 
-**2\. Dirección del Contrato Desplegado** En una testnet con código fuente verificado en un explorador de bloques.
+#### `withdrawalCount(address) → uint256`
+Devuelve la cantidad de retiros realizados por un usuario.
 
-Primer Deadline - > sabado 14 a media noche
+---
 
-Segundo Deadline - > lunes 16 a media noche
+## 📍 Contrato desplegado
+
+- 🧾 Dirección: [`0xf7770a85a3003AEc8eb17Bab1fC1C2AedfB0eBFc`](https://sepolia.etherscan.io/address/0xf7770a85a3003AEc8eb17Bab1fC1C2AedfB0eBFc)
+- 🌐 Red: **Sepolia Testnet**
+
+---
+
+## 📦 Herramientas utilizadas
+
+- Remix IDE
+- Solidity 0.8.20
+- Sepolia Testnet
+- Etherscan (verificación de contrato)
